@@ -1,6 +1,7 @@
 ﻿
 
 using SolidDemo.Accounts;
+using SolidDemo.Loans;
 using SolidDemo.Validations;
 
 namespace SolidDemo;
@@ -16,7 +17,7 @@ internal class BankService : IBankService
         _loggingService = loggingService;
         _accountValidations = accountValidations.ToDictionary(x => x.AccountType, y => y);
     }
-    // Currency HEHE
+    
     public void Withdraw(Customer customer, int accountId, decimal amount)
     {
         var account = customer.GetAccount(accountId);
@@ -41,7 +42,7 @@ internal class BankService : IBankService
     public void Withdraw(Customer customer, int accountId, decimal amount, Currency currency)
     {
         var account = customer.GetAccount(accountId);
-        amount = Convert(account, amount, currency);
+        amount = ConvertCurrency(account, amount, currency);
 
         if (!_accountValidations.TryGetValue(account.AccountType, out var accountValidation))
             throw new ArgumentException("Account type {account} is not Valid");
@@ -60,7 +61,16 @@ internal class BankService : IBankService
         }
     }
 
-    private decimal Convert(IAccount account, decimal amount, Currency currency)
+    public void GetAllLoans(Customer customer)
+    {
+        foreach (var loan in customer.Loans)
+        {
+            var totalAmountToPay = loan.CalculateTotalPayment();
+            _loggingService.LogMessage($"Total Payable Amount: {totalAmountToPay:n}");
+        }
+    }
+
+    private decimal ConvertCurrency(IAccount account, decimal amount, Currency currency)
     {
         if (account is IForeignAccount foreignAccount)
         {

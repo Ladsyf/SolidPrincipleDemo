@@ -13,7 +13,7 @@ namespace SolidDemo.Accounts
     internal class DollarAccount(int accountId, decimal balance) : Account(accountId, balance), IForeignAccount
     {
         private const decimal _conversionRate = 0.017m;
-        public decimal PesoToForeign(decimal amount) 
+        public decimal PesoToForeign(decimal amount)
         {
             return amount * _conversionRate;
         }

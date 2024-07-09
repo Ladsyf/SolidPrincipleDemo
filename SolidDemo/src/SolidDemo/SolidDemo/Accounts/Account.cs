@@ -1,4 +1,6 @@
-﻿namespace SolidDemo.Accounts;
+﻿using SolidDemo.Loans;
+
+namespace SolidDemo.Accounts;
 
 internal abstract class Account(int accountId, decimal balance)
 {
