@@ -15,8 +15,14 @@ namespace SolidDemo.Loans
 
         public LoanType LoanType => LoanType.Personal;
 
-        public override void DisplayLoanDetails(ILoggingService loggingService)
+        //public override void DisplayLoanDetails(ILoggingService loggingService)
+        //{
+            
+        //}
+
+        public override void DisplayAdditionalDetails()
         {
+            Console.WriteLine(_purpose);
         }
     }
 }

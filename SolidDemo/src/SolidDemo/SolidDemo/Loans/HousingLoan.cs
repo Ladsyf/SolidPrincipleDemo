@@ -15,9 +15,9 @@ namespace SolidDemo.Loans
 
         public LoanType LoanType => LoanType.Housing;
 
-        public void DisplayLoadDetails()
-        { 
-            
+        public override void DisplayAdditionalDetails()
+        {
+            Console.WriteLine("");
         }
     }
 }

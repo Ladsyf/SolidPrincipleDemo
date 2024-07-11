@@ -14,5 +14,10 @@ namespace SolidDemo.Loans
         }
 
         public LoanType LoanType => LoanType.Car;
+
+        public override void DisplayAdditionalDetails()
+        {
+            Console.WriteLine(_carModel);
+        }
     }
 }
