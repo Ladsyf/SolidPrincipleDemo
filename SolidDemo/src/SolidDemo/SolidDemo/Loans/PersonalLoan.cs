@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SolidDemo.Loans
 {
-    internal class PersonalLoan : Loan
+    internal class PersonalLoan : Loan, ILoan
     {
         private const double _interestRate = 0.02;
-        private string _purpose {  get; set; }
+        private string _purpose { get; set; }
         public PersonalLoan(decimal amount, int duration, string purpose) : base(amount, duration, _interestRate)
         {
             _purpose = purpose;
@@ -15,14 +15,9 @@ namespace SolidDemo.Loans
 
         public LoanType LoanType => LoanType.Personal;
 
-        //public override void DisplayLoanDetails(ILoggingService loggingService)
-        //{
-            
-        //}
-
-        public override void DisplayAdditionalDetails()
+        public string GetLoanDetails()
         {
-            Console.WriteLine(_purpose);
+            return $"Loan Type: {LoanType} \n Purpose: {_purpose} \n Total Payment: {CalculateTotalPayment()}";
         }
     }
 }

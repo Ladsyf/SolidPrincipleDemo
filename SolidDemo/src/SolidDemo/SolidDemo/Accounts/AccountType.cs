@@ -4,5 +4,5 @@ internal enum AccountType
     Savings,
     Current,
     TimeDeposit,
-    Dollar
+    USDollar
 }

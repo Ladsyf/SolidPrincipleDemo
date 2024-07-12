@@ -18,39 +18,32 @@ internal class BankService : IBankService
         _accountValidations = accountValidations.ToDictionary(x => x.AccountType, y => y);
     }
     
-    public void Withdraw(Customer customer, int accountId, decimal amount)
-    {
-        var account = customer.GetAccount(accountId);
-
-        if (!_accountValidations.TryGetValue(account.AccountType, out var accountValidation))
-            throw new ArgumentException("Account type {account} is not Valid");
-
-        if (accountValidation.IsValid(account, amount))
-        {
-            account.Withdraw(amount);
-            _loggingService.LogMessage($"Withdrawal of {amount} successful. New balance: {account.Balance}");
-        }
-        else
-        {
-            if (account is ITimeDepositAccount timeDeposit)
-                LogTimeDepositError(timeDeposit);
-            else
-                _loggingService.LogMessage("Withdrawal failed. Check the amount and balance.");
-        }
-    }
-
-    public void Withdraw(Customer customer, int accountId, decimal amount, Currency currency)
+    public void Withdraw(Customer customer, int accountId, decimal amount, Currency currency = Currency.Peso)
     {
         var account = customer.GetAccount(accountId);
         amount = ConvertCurrency(account, amount, currency);
+        Withdraw(amount, account);
+    }
 
+    public void Deposit(Customer customer, int accountId, decimal amount, Currency currency = Currency.Peso)
+    {
+        var account = customer.GetAccount(accountId);
+        amount = ConvertCurrency(account, amount, currency);
+        
+        account.Deposit(amount);
+
+        _loggingService.LogMessage($"New {account.AccountType} balance : {account.Balance:n}");
+    }
+
+    private void Withdraw(decimal amount, IAccount account)
+    {
         if (!_accountValidations.TryGetValue(account.AccountType, out var accountValidation))
             throw new ArgumentException("Account type {account} is not Valid");
 
         if (accountValidation.IsValid(account, amount))
         {
             account.Withdraw(amount);
-            _loggingService.LogMessage($"Withdrawal of {amount} successful. New balance: {account.Balance}");
+            _loggingService.LogMessage($"Withdrawal of {amount:n}   successful. New balance: {account.Balance:n}");
         }
         else
         {
@@ -65,8 +58,8 @@ internal class BankService : IBankService
     {
         foreach (var loan in customer.Loans)
         {
-            var totalAmountToPay = loan.CalculateTotalPayment();
-            _loggingService.LogMessage($"Total Payable Amount: {totalAmountToPay:n}");
+            var loanDetails = loan.GetLoanDetails();
+            _loggingService.LogMessage($"{loanDetails} \n\n\n");
         }
     }
 

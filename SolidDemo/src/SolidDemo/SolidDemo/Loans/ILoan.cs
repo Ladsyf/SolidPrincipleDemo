@@ -2,8 +2,7 @@
 {
     internal interface ILoan
     {
-        LoanType LoanType { get; set; }
-        decimal CalculateTotalPayment();
-        void DisplayLoanDetails();
+        LoanType LoanType { get; }
+        string GetLoanDetails();
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SolidDemo.Loans
 {
-    internal abstract class Loan : ILoan
+    internal abstract class Loan
     {
         private double _interestRate { get; set; }
         private decimal _amount { get; set; }
@@ -17,19 +17,9 @@ namespace SolidDemo.Loans
             _duration = duration;
         }
 
-        public LoanType LoanType { get; set; }
-
         protected decimal CalculateTotalPayment()
         {
             return _amount * (decimal)Math.Pow(1 + _interestRate, _duration);
-            // _amount * (1 + _interestRate) ^ (_duration / 12)
         }
-
-        public void DisplayLoanDetails()
-        { 
-            DisplayAdditionalDetails();
-        }
-
-        public abstract void DisplayAdditionalDetails();
     }
 }

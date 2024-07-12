@@ -8,7 +8,7 @@ internal abstract class Account(int accountId, decimal balance)
 
     public decimal Balance { get; set; } = balance;
 
-    public void Deposit(decimal amount)
+    public virtual void Deposit(decimal amount)
     {
         Balance += amount;
     }

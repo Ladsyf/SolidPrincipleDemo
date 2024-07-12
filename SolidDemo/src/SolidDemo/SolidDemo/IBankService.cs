@@ -4,7 +4,7 @@ namespace SolidDemo;
 
 internal interface IBankService
 {
-    void Withdraw(Customer customer, int accountId, decimal amount);
-    void Withdraw(Customer customer, int accountId, decimal amount, Currency currency);
+    void Withdraw(Customer customer, int accountId, decimal amount, Currency currency = Currency.Peso);
+    void Deposit(Customer customer, int accountId, decimal amount, Currency currency = Currency.Peso);
     void GetAllLoans(Customer customer);
 }

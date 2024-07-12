@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SolidDemo.Loans
 {
-    internal class CarLoan : Loan
+    internal class CarLoan : Loan, ILoan
     {
         private const double _interestRate = 0.05;
         private string _carModel { get; set; }
@@ -15,9 +15,9 @@ namespace SolidDemo.Loans
 
         public LoanType LoanType => LoanType.Car;
 
-        public override void DisplayAdditionalDetails()
+        public string GetLoanDetails()
         {
-            Console.WriteLine(_carModel);
+            return $"Loan Type: {LoanType}\n Car Model: {_carModel} \n Total Payment: {CalculateTotalPayment()}";
         }
     }
 }
